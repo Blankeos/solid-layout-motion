@@ -4,9 +4,10 @@ This is a testbed, not a library. Some proof-of-concepts I achieved:
 
 - [x] Tween position (hardest)
 - [x] Tween scale (hardest)
-- [ ] Tween transform origin
+- [x] Tween transform origin (hard, but quintessential to achieving the effect, framer-motion does it too)
 - [ ] Tween opacity (should be easy)
 - [ ] Tween border radius (should be easy)
+- [ ] Tween colors.
 - [ ] Tween rotation (idk)
 
 ![s](_docs/solid-layout-motion.gif)
