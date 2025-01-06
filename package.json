@@ -20,14 +20,18 @@
     "@types/bun": "^1.1.14",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.17.0",
     "eslint-plugin-solid": "^0.14.5",
+    "postcss": "^8.4.49",
     "prettier": "^3.4.2",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "vite": "^6.0.7"
   },
   "dependencies": {
     "hono": "^4.6.16",
+    "motion": "^11.15.0",
     "solid-js": "^1.9.3",
     "vike": "0.4.212",
     "vike-metadata-solid": "^1.0.4",
