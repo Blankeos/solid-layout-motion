@@ -1,52 +1,14 @@
-# 🐇 Solid Hop
+# solid layout motion
 
-💙 A **minimal** and **unopinionated** Vike + Solid + Hono starter.
+![s](_docs/solid-layout-motion.gif)
 
-❤️ We love Vike and Solid, but it might be overwhelming to setup. The goal of this starter is to get you up and running quickly with good defaults without getting in the way of your opinions.
+As of the moment, there are no docs on how to use [Motion.dev](https://motion.dev/) for Layout animations (just like Framer Motion has) for SolidJS, let alone VanillaJS.
 
-This is more or less what you would get from a starter with `create next-app` or `create svelte` or `create solid`.
+I spent some time reverse-engineering how Framer Motion does shared layout animations via a `layoutId`, and
+the results were super promising, I just had to share.
 
-If you want a more opinionated and fully-featured boilerplate instead: http://github.com/blankeos/solid-launch
+This uses the `motion` library under the hood (to honor the Framer Motion inspiration), but you can probably
+use any tweening library. This just demonstrates how to achieve that tweened View Transition illusion using
+just JavaScript.
 
-## Tech Stack:
-
-1. Vike + Hono - For SSR + Your own Server.
-2. SolidJS
-3. Bun (Can swap this with Node easily if you want).
-4. Tools: ESLint, Prettier
-
-## Quick Start
-
-1. Clone
-
-```sh
-git clone https://github.com/blankeos/solid-hop <your-app-name>
-cd <your-app-name>
-rm -rf .git # This is your app. Start the commits fresh :D
-```
-
-1. Install
-
-```sh
-bun install
-```
-
-3. Run dev server
-
-```sh
-bun dev
-```
-
-## Building and Deployment
-
-1. Build
-
-```sh
-bun run build
-```
-
-2. Wherever you deploy, just run make sure that this is ran:
-
-```sh
-bun run preview # Just runs server.ts
-```
+I made a [video](https://github.com/Blankeos/solid-layout-motion/issues/1) of how my thought-process went into solving this problem.
