@@ -1,6 +1,5 @@
 import { animate } from "motion";
 import {
-  Accessor,
   createContext,
   createSignal,
   FlowProps,
@@ -10,28 +9,29 @@ import {
   useContext,
 } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
+import { createStore, SetStoreFunction } from "solid-js/store";
 
 type MotionLayoutContextValue = {
   layoutId?: string;
-  sourceRect: Accessor<DOMRect | undefined>;
-  setSourceRect: (rect: DOMRect) => void;
+  sourceData: Partial<SourceData>;
+  setSourceData: SetStoreFunction<Partial<SourceData>>;
 };
 
 const MotionLayoutContext = createContext<MotionLayoutContextValue>({
-  sourceRect: () => undefined,
-  setSourceRect: () => {},
+  sourceData: {},
+  setSourceData: () => {},
 });
 
 const useMotionLayoutContext = () => useContext(MotionLayoutContext);
 
 export function MotionLayoutProvider(props: FlowProps) {
-  const [sourceRect, setSourceRect] = createSignal<DOMRect>();
+  const [sourceData, setSourceData] = createStore<Partial<SourceData>>({});
 
   return (
     <MotionLayoutContext.Provider
       value={{
-        sourceRect: sourceRect,
-        setSourceRect: setSourceRect,
+        sourceData: sourceData,
+        setSourceData: setSourceData,
       }}
     >
       {props.children}
@@ -40,12 +40,22 @@ export function MotionLayoutProvider(props: FlowProps) {
 }
 
 function span(props: ParentProps<JSX.HTMLAttributes<HTMLSpanElement>>) {
-  const { sourceRect, setSourceRect } = useMotionLayoutContext();
+  const { sourceData, setSourceData } = useMotionLayoutContext();
   const [ref, setRef] = createSignal<HTMLSpanElement>();
 
   onMount(() => {
-    if (sourceRect()) {
-      const transform = copyTransformFromRect(sourceRect()!, ref()!);
+    if (sourceData.borderRadius && sourceData.domRect) {
+      const transform = copyTransformFromRect(
+        {
+          borderRadius: sourceData.borderRadius,
+          domRect: sourceData.domRect,
+        },
+        ref()!
+      );
+
+      const original = {
+        borderRadius: getComputedStyle(ref()!).borderRadius,
+      };
 
       animate(
         ref()!,
@@ -54,14 +64,23 @@ function span(props: ParentProps<JSX.HTMLAttributes<HTMLSpanElement>>) {
           scaleY: [transform.scaleY, 1],
           x: [transform.translateX, 0],
           y: [transform.translateY, 0],
+          borderRadius: [sourceData.borderRadius, original.borderRadius],
         },
-        {}
+        {
+          ease: "backOut",
+          duration: 0.4,
+        }
       );
     }
   });
   onCleanup(() => {
     if (ref()) {
-      setSourceRect(ref()!.getBoundingClientRect());
+      const borderRadius = getComputedStyle(ref()!).borderRadius;
+
+      setSourceData({
+        borderRadius: borderRadius,
+        domRect: ref()!.getBoundingClientRect(),
+      });
     }
   });
 
@@ -113,9 +132,14 @@ export function copyTransform(source: HTMLElement, target: HTMLElement) {
   };
 }
 
-export function copyTransformFromRect(source: DOMRect, target: HTMLElement) {
+type SourceData = {
+  domRect: DOMRect;
+  borderRadius: string;
+};
+
+export function copyTransformFromRect(source: SourceData, target: HTMLElement) {
   // Get the bounding rectangles of both elements
-  const sourceBounds = source;
+  const sourceBounds = source.domRect;
   const targetBounds = target.getBoundingClientRect();
 
   // Calculate the scale factors needed
@@ -148,5 +172,6 @@ export function copyTransformFromRect(source: DOMRect, target: HTMLElement) {
     translateY,
     scaleX,
     scaleY,
+    borderRadius: source.borderRadius,
   };
 }

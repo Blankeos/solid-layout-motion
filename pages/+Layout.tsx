@@ -18,6 +18,7 @@ export default function RootLayout(props: FlowProps) {
           <NavLink href="/">1. Demonstration of Copy</NavLink>
           <NavLink href="/2">2. Basic Switch</NavLink>
           <NavLink href="/3">3. Shared Layout Animation</NavLink>
+          <NavLink href="/4">4. Expanding Container (Like Family)</NavLink>
         </nav>
 
         <div class="flex-1 h-full flex-grow">{props.children}</div>
@@ -32,7 +33,7 @@ function NavLink(props: FlowProps<{ href: string }>) {
   return (
     <a
       href={props.href}
-      class={`hover:underline ${pageContext.urlPathname === props.href ? "text-blue-500" : ""}`}
+      class={`hover:underline truncate ${pageContext.urlPathname === props.href ? "text-blue-500" : ""}`}
     >
       {props.children}
     </a>
