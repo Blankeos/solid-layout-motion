@@ -1,5 +1,14 @@
 # solid layout motion
 
+This is a testbed, not a library. Some proof-of-concepts I achieved:
+
+- [x] Tween position (hardest)
+- [x] Tween scale (hardest)
+- [ ] Tween transform origin
+- [ ] Tween opacity (should be easy)
+- [ ] Tween border radius (should be easy)
+- [ ] Tween rotation (idk)
+
 ![s](_docs/solid-layout-motion.gif)
 
 As of the moment, there are no docs on how to use [Motion.dev](https://motion.dev/) for Layout animations (just like Framer Motion has) for SolidJS, let alone VanillaJS.
